@@ -18,10 +18,20 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script type="text/javascript"
 	src="https://cdn.datatables.net/v/bs4/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+
+<!--context menu-->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
+
 <title>Insert title here</title>
 </head>
 <body>
-	<div class="container" contextmenu="mymenu">
+	<div class="container context-menu-one">
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
 			<li class="nav-item"><a class="nav-link active"
@@ -38,21 +48,17 @@
 			<div id="register-tab" class="container tab-pane fade"></div>
 			<div id="datatable-tab" class="container tab-pane fade"></div>
 		</div>
-
-		<menu type="context" id="mymenu">
-			<menuitem label="Next Tab" onclick="switchTab(event, 1)"></menuitem>
-			<menuitem label="Previous Tab" onclick="switchTab(event, -1)"></menuitem>
-		</menu>
 	</div>
 </body>
 </html>
 
 <script>
+
 	function getContextPath() {
 		return window.location.pathname.split('/')[1];
 	}
 	var currentTab = 0;
-	function switchTab(event, val) {
+	function switchTab(val) {
 		;
 		if (currentTab + (val) > 2 || currentTab + (val) < 0) {
 			return;
@@ -62,46 +68,73 @@
 		$('.nav-tabs a[href="#' + tabNames[currentTab] + '"]').tab('show');
 	}
 
+	function buildContextMenu() {
+		$.contextMenu({
+			selector : '.context-menu-one',
+			callback : function(key, options) {
+				if (key === "next-tab") {
+					switchTab(1);
+				} else {
+					switchTab(-1);
+				}
+			},
+			items : {
+				"next-tab" : {
+					name : "Next Tab",
+					icon : "next"
+				},
+				"previous-tab" : {
+					name : "Previous Tab",
+					icon : "previous"
+				}
+			}
+		});
+
+		$('.context-menu-one').on('click', function(e) {
+			console.log('clicked', this);
+		})
+	}
+
+	function loadData() {
+		$.ajax({
+			type : 'GET',
+			url : window.location.pathname.split('/')[1] + "/getData",
+			data : {},
+			success : function(result) {
+				$('#datatable').DataTable({
+					data : result.userData,
+					columns : [ {
+						title : "First Name"
+					}, {
+						title : "Last Name"
+					}
+// 					,{
+// 						title : "Office"
+// 					}, {
+// 						title : "Start date"
+// 					}, {
+// 						title : "Salary"
+// 					}
+					]
+				});
+			},
+			error : function(result) {
+				$("#example").DataTable().row.add(
+						[ "Moshiur Rahman", "Pobationary Officer",
+								"Head Office", "2019/03/19", "$500" ]).draw(
+						false);
+			}
+		});
+	}
+
 	$(document).ready(
 			function() {
 				$('#home-tab').load('home.jsp');
 				$('#register-tab').load(getContextPath() + '/registerAction');
-				$('#datatable-tab').load(
-						getContextPath() + '/getdatatable',
-						function() {
+				$('#datatable-tab').load(getContextPath() + '/getdatatable',
+						loadData());
 
-							$.ajax({
-								type : 'GET',
-								url : window.location.pathname.split('/')[1]
-										+ "/getData",
-								data : {},
-								success : function(result) {
-									$('#datatable').DataTable({
-										data : dataSet,
-										columns : [ {
-											title : "Name"
-										}, {
-											title : "Position"
-										}, {
-											title : "Office"
-										}, {
-											title : "Start date"
-										}, {
-											title : "Salary"
-										} ]
-									});
-								},
-								error : function(result) {
-									$("#example").DataTable().row.add(
-											[ "Moshiur Rahman",
-													"Pobationary Officer",
-													"Head Office",
-													"2019/03/19", "$500" ])
-											.draw(false);
-								}
-							});
-
-						});
+				buildContextMenu();
 			});
 
 	$('.nav-tabs a').on('show.bs.tab', function(e, v) {
