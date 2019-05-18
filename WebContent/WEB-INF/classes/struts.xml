@@ -5,7 +5,6 @@
  
 <struts>
  	<constant name="struts.devMode" value="true" />
- 	
 	<package name="default" namespace="/" extends="struts-default">
 		<action name="registerAction" 
 			class="com.register.HomeAction" method="launchRegister">
@@ -19,8 +18,13 @@
 	
 	 <package name="api" namespace="/" extends="json-default">
       <action name="getData" 
-           class="com.register.HomeAction" method="getData">
+           class="com.register.HomeAction" method="readDataFromDb">
        	   <result type="json" />
       </action>
-    </package>
+      <action name="user/*" 
+      	   class="com.register.HomeAction" method = "readUserInfo">
+        <param name="id">{1}</param>
+        <result type="json"/>
+    </action>   
+</package>
 </struts>
