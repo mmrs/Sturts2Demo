@@ -49,6 +49,7 @@ public class HomeAction {
 			info.add(prop);
 		}
 		userData = info;
+		DBConnection.oracleConnection().close();
 		return Action.SUCCESS;
 	}
 }
