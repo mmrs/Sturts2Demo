@@ -13,7 +13,14 @@
 		</action>
 		<action name="getdatatable" 
 			class="com.register.HomeAction" method="lunchDataTable">
-			<result name="lunchDataTable">/datatable.jsp</result>
+			<result name="lunchDataTable">/WEB-INF/datatable.jsp</result>
 		</action>
 	</package>
+	
+	 <package name="api" namespace="/" extends="json-default">
+      <action name="getData" 
+           class="com.register.HomeAction" method="getData">
+       	   <result type="json" />
+      </action>
+    </package>
 </struts>
