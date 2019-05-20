@@ -7,33 +7,46 @@
  	<constant name="struts.devMode" value="true" />
 	<package name="default" namespace="/" extends="struts-default">
 		<action name="registerAction" 
-			class="com.register.HomeAction" method="launchRegister">
+			class="com.register.action.HomeAction" method="launchRegister">
 			<result name="lReg">/WEB-INF/register.jsp</result>
 		</action>
 		<action name="getdatatable" 
-			class="com.register.HomeAction" method="lunchDataTable">
+			class="com.register.action.HomeAction" method="lunchDataTable">
 			<result name="lunchDataTable">/WEB-INF/datatable.jsp</result>
+		</action>
+		
+		<action name="registerUser" class="com.register.action.RegisterAction" method="registerUser">
+    	<result name="success">/thankyou.jsp</result>
+    	</action>
+    	
+    	<action name="getregister" 
+			class="com.register.action.RegisterAction" method="getRegister">
+			<result name="success">/WEB-INF/regi.jsp</result>
+		</action>
+		<action name="postregister" 
+			class="com.register.action.RegisterAction" method="postRegister">
+			<result name="success">/WEB-INF/regi.jsp</result>
 		</action>
 	</package>
 	
 	 <package name="api" namespace="/" extends="json-default">
       <action name="getData" 
-           class="com.register.HomeAction" method="readDataFromDb">
+           class="com.register.action.HomeAction" method="readDataFromDb">
        	   <result type="json" />
       </action>
       <action name="user/*" 
-      	   class="com.register.HomeAction" method = "readUserInfo">
+      	   class="com.register.action.HomeAction" method = "readUserInfo">
         <param name="id">{1}</param>
         <result type="json"/>
     </action> 
     
      <action name="edit*" 
-      	   class="com.register.HomeAction" method = "edit{1}">
+      	   class="com.register.action.HomeAction" method = "edit{1}">
         <param name="id">{1}</param>
         <result type="json"/>
     </action>
     
-    <action name="*" class="com.register.HomeAction" method="defaultAction">
+    <action name="*" class="com.register.action.HomeAction" method="defaultAction">
       <param name="id">{1}</param>
       <result type = "json"/>
     </action>

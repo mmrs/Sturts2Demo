@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
 <div>
 	<a href="https://www.dutchbanglabank.com" target="_blank"><img
@@ -8,7 +9,7 @@
 	<h1 class="text-center pb-4">Student Information</h1>
 	<div class="row">
 		<div class="col">
-			<form>
+			<s:form action="postregister" id= "myForm">
 				<div class="card border-primary mb-2">
 					<div class="card-header bg-primary text-white">
 						<strong> Personal Info</strong>
@@ -22,7 +23,7 @@
 										Name:</label>
 									<div class="col-sm-8 col-md-8 col-lg-9">
 										<input type="text" class="form-control" id="first_name"
-											placeholder="First Name">
+											placeholder="First Name" name="userEntity.firstName">
 									</div>
 								</div>
 							</div>
@@ -33,7 +34,7 @@
 										Name:</label>
 									<div class="col-sm-8 col-md-8 col-lg-9">
 										<input type="text" class="form-control" id="last_name"
-											placeholder="Last Name">
+											placeholder="Last Name" name="userEntity.lastName">
 									</div>
 								</div>
 							</div>
@@ -47,7 +48,7 @@
 										Name:</label>
 									<div class="col-sm-8 col-md-8 col-lg-9">
 										<input type="text" class="form-control" id="father_name"
-											placeholder="Father's Name">
+											placeholder="Father's Name" name="userEntity.fatherName">
 									</div>
 								</div>
 							</div>
@@ -58,7 +59,7 @@
 										Name:</label>
 									<div class="col-sm-8 col-md-8 col-lg-9">
 										<input type="text" class="form-control" id="mother_name"
-											placeholder="Mother's Name">
+											placeholder="Mother's Name" name="userEntity.motherName">
 									</div>
 								</div>
 							</div>
@@ -71,7 +72,7 @@
 										class="col-sm-4 col-md-4 col-lg-3 col-form-label">Email:</label>
 									<div class="col-sm-8 col-md-8 col-lg-9">
 										<input type="email" class="form-control" id="email"
-											placeholder="Email"> <small>*This email
+											placeholder="Email" name="userEntity.email"> <small>*This email
 											address will be used as username</small>
 									</div>
 								</div>
@@ -81,17 +82,17 @@
 									<div class="form-check form-check-inline"
 										style="padding-left: 15px;">
 										<input class="form-check-input" type="radio"
-											name="inlineRadioOptions" id="gender_op1" value="Male">
+											name="userEntity.gender" id="gender_op1" value="Male">
 										<label class="form-check-label" for="gender">Male</label>
 									</div>
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio"
-											name="inlineRadioOptions" id="gender_op2" value="Female">
+											name="userEntity.gender" id="gender_op2" value="Female">
 										<label class="form-check-label" for="gender">Female</label>
 									</div>
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio"
-											name="inlineRadioOptions" id="gender_op3" value="Other">
+											name="userEntity.gender" id="gender_op3" value="Other">
 										<label class="form-check-label" for="gender">Other</label>
 									</div>
 								</div>
@@ -103,7 +104,7 @@
 										class="col-sm-4 col-md-4 col-lg-3 col-form-label">Password:</label>
 									<div class="col-sm-8 col-md-8 col-lg-9">
 										<input type="password" class="form-control" id="inputPassword"
-											placeholder="Password">
+											placeholder="Password" name="userEntity.password">
 									</div>
 								</div>
 							</div>
@@ -242,14 +243,14 @@
 				</div>
 				<div class="form-group text-center mt-2">
 					<div class="col">
-						<button type="submit" class="btn btn-primary btn-md">Register</button>
+						<button type="submit" id="submit" class="btn btn-primary btn-md">Register</button>
 					</div>
 					<div class="col">OR</div>
 					<div class="col">
 						<a href="">Login Here</a>
 					</div>
 				</div>
-			</form>
+			</s:form>
 		</div>
 	</div>
 </div>
@@ -294,7 +295,25 @@
 			});
 		});
 	}
-	
+
 	initializeAddEducationFormEvent();
 
+	$("#submit").click(function(){
+	        var formData = $("#myForm").serialize(); //get all data from form
+	        $.ajax({
+	            type: "POST",
+	            url: "postregister",
+	            cache: false,
+	            data: formData,
+	            success: function(data){
+	            	alert("Form submitted.");
+	            },
+	            error: function(){
+	            	alert("Something went wrong.");
+	            }
+	        });
+
+	        return false;
+	});
+	
 </script>
