@@ -102,19 +102,20 @@
 			data : {},
 			success : function(result) {
 				$('#datatable').DataTable({
-					data : result.userData,
+// 					data : result.userData,
+					data: dataSet,
 					columns : [ {
 						title : "First Name"
 					}, {
 						title : "Last Name"
-					}
-// 					,{
-// 						title : "Office"
-// 					}, {
-// 						title : "Start date"
-// 					}, {
-// 						title : "Salary"
-// 					}
+					},
+					{
+						title : "Office"
+					}, {
+						title : "Start date"
+					}, {
+						title : "Salary"
+ 					}
 					]
 				});
 			},

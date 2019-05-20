@@ -25,6 +25,18 @@
       	   class="com.register.HomeAction" method = "readUserInfo">
         <param name="id">{1}</param>
         <result type="json"/>
-    </action>   
+    </action> 
+    
+     <action name="edit*" 
+      	   class="com.register.HomeAction" method = "edit{1}">
+        <param name="id">{1}</param>
+        <result type="json"/>
+    </action>
+    
+    <action name="*" class="com.register.HomeAction" method="defaultAction">
+      <param name="id">{1}</param>
+      <result type = "json"/>
+    </action>
+      
 </package>
 </struts>

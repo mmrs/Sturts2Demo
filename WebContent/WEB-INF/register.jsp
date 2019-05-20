@@ -256,11 +256,13 @@
 <script>
 	var id = 1;
 	function addEducationBlockForm() {
+		debugger;
 		var currentform = $("#edu_form" + id);
 		var newform = currentform.clone();
 		id = id + 1;
 		newform[0].id = "edu_form" + id;
 		$("#edu_card").append(newform);
+		initializeAddEducationFormEvent();
 		return false;
 	}
 
@@ -277,16 +279,22 @@
 		"SSC" : [ "Bindubashi Govt Boys", "Motijheel High School" ],
 		"HSC" : [ "Dhaka College", "Notre Dame College" ],
 		"O Level" : [ "English Medium School", "Daffodil School" ],
-		"A Level" : [ "Scholars Home", "Edu Care High School" ]
-	}
+		"A Level" : [ "Scholar's Home", "Edu Care High School" ]
+	};
 
-	var $select1 = $('#inst_group'), $select2 = $('#inst_name');
+	function initializeAddEducationFormEvent() {
+		var $select1 = $('#edu_form' + id + ' #inst_group'), $select2 = $('#edu_form'
+				+ id + ' #inst_name');
 
-	$select1.on('change', function() {
-		$select2.empty();
-		var myOptions = instInfo[$select1[0].selectedOptions[0].text];
-		$.each(myOptions, function(index, val) {
-			$select2.append($('<option></option>').val(val).html(val));
+		$select1.on('change', function() {
+			$select2.empty();
+			var myOptions = instInfo[$select1[0].selectedOptions[0].text];
+			$.each(myOptions, function(index, val) {
+				$select2.append($('<option></option>').val(val).html(val));
+			});
 		});
-	});
+	}
+	
+	initializeAddEducationFormEvent();
+
 </script>

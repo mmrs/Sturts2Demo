@@ -57,6 +57,7 @@ public class HomeAction {
 	}
 	
 	public String readUserInfo() throws SQLException{
+		try{
 		ResultSet result = DBConnection.oracleConnection().createStatement().executeQuery("SELECT * FROM students WHERE first_name = '" + id +"'");
 		List info = new ArrayList<ArrayList<String>>();
 		while (result.next()) {
@@ -69,6 +70,26 @@ public class HomeAction {
 		
 		userData = info;
 		DBConnection.oracleConnection().close();
+		}
+		catch(Exception ex){
+			
+		}
+		return Action.SUCCESS;
+	}
+	
+	
+	public String editUser(){
+		id = "EDIT USER";
+		return Action.SUCCESS;
+	}
+	
+	public String editAdmin(){
+		id = "EDIT ADMIN";
+		return Action.SUCCESS;
+	}
+	
+	public String defaultAction(){
+		id = "Action Not Found";
 		return Action.SUCCESS;
 	}
 }
